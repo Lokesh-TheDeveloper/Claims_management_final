@@ -5,7 +5,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017/")  # Update with your actual MongoDB URI
+client = MongoClient("mongodb+srv://lokeshkumawat1903:lokeshjojo@claimscluster.r2ikn.mongodb.net/?retryWrites=true&w=majority&appName=ClaimsCluster")  # Update with your actual MongoDB URI
 db = client["claims_db"]
 claims_collection = db["claims"]
 
