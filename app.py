@@ -1,19 +1,11 @@
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
 
 # Initialize Flask App
 app = Flask(__name__)
 
-# Fetch the API key from environment variable (recommended for security)
-API_KEY = os.getenv("API_KEY", "your-unique-api-key")  # Replace with your API key
-
-
 # Connect to MongoDB
-client = MongoClient(os.getenv("MONGO_URI"))  # Get Mongo URI from environment variable
+client = MongoClient("mongodb+srv://lokeshkumawat1903:lokeshjojo@claimscluster.r2ikn.mongodb.net/?retryWrites=true&w=majority&appName=ClaimsCluster")  # Update with your actual MongoDB URI
 db = client["claims_db"]
 claims_collection = db["claims"]
 
@@ -84,4 +76,4 @@ def delete_claim(claim_id):
     return jsonify({"message": response})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True
