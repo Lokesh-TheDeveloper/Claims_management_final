@@ -76,4 +76,4 @@ def delete_claim(claim_id):
     return jsonify({"message": response})
 
 if __name__ == "__main__":
-    app.run(debug=True
+    app.run(debug=True)
