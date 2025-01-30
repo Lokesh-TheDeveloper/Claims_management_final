@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flasgger import Swagger
+from flasgger import Swagger    # flasgger is used for generating Swagger UI at default location /apidocs
 from pymongo import MongoClient
 
 # Initialize Flask App
