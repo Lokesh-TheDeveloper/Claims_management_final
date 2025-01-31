@@ -1,0 +1,40 @@
+.App {
+  text-align: center;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 1rem;
+}
+
+nav ul li a {
+  text-decoration: none;
+  font-size: 18px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 2rem auto;
+}
+
+form input {
+  margin: 10px 0;
+  padding: 8px;
+}
+
+table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
