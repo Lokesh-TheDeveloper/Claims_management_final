@@ -2,39 +2,83 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const ClaimForm = () => {
-  const [formData, setFormData] = useState({
-    claim_id: "",
-    policy_id: "",
-    amount: "",
-  });
-
+  const [tab, setTab] = useState("create"); // Toggle between Create & Update/Delete
+  const [claimId, setClaimId] = useState("");
+  const [policyId, setPolicyId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [newStatus, setNewStatus] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleCreate = async () => {
+    if (!claimId || !policyId || !amount) {
+      setMessage("Please fill all fields.");
+      return;
+    }
+    try {
+      const response = await axios.post("http://localhost:5000/claim", {
+        claim_id: claimId,
+        policy_id: policyId,
+        amount: parseFloat(amount),
+      });
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response?.data?.error || "Error creating claim.");
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleUpdate = async () => {
+    if (!claimId || !newStatus) {
+      setMessage("Please enter Claim ID and new status.");
+      return;
+    }
     try {
-      const response = await axios.post("http://localhost:5000/claim", formData);
-      setMessage(response.data?.message || "Claim created successfully!");
+      const response = await axios.put(`http://localhost:5000/claim/${claimId}`, {
+        status: newStatus,
+      });
+      setMessage(response.data.message);
     } catch (error) {
-      console.error("Error creating claim:", error);
-      setMessage(error.response?.data?.error || "Failed to create claim.");
+      setMessage(error.response?.data?.error || "Error updating claim.");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!claimId) {
+      setMessage("Please enter Claim ID.");
+      return;
+    }
+    try {
+      const response = await axios.delete(`http://localhost:5000/claim/${claimId}`);
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response?.data?.error || "Error deleting claim.");
     }
   };
 
   return (
-    <div>
-      <h2>Create a Claim</h2>
+    <div style={{ maxWidth: "400px", margin: "auto", textAlign: "center", padding: "20px" }}>
+      <h2>Claims Management</h2>
+      <div>
+        <button onClick={() => setTab("create")} style={{ marginRight: "10px" }}>Create Claim</button>
+        <button onClick={() => setTab("update-delete")}>Update Claim</button>
+      </div>
+
+      {tab === "create" ? (
+        <div>
+          <input type="text" placeholder="Enter Claim ID" value={claimId} onChange={(e) => setClaimId(e.target.value)} style={{ display: "block", margin: "10px auto", padding: "8px", width: "100%" }} />
+          <input type="text" placeholder="Enter Policy ID" value={policyId} onChange={(e) => setPolicyId(e.target.value)} style={{ display: "block", margin: "10px auto", padding: "8px", width: "100%" }} />
+          <input type="number" placeholder="Enter Amount" value={amount} onChange={(e) => setAmount(e.target.value)} style={{ display: "block", margin: "10px auto", padding: "8px", width: "100%" }} />
+          <button onClick={handleCreate} style={{ padding: "10px", margin: "5px", background: "white", color: "black" }}>Create Claim</button>
+        </div>
+      ) : (
+        <div>
+          <input type="text" placeholder="Enter Claim ID" value={claimId} onChange={(e) => setClaimId(e.target.value)} style={{ display: "block", margin: "10px auto", padding: "8px", width: "100%" }} />
+          <input type="text" placeholder="Enter New Status" value={newStatus} onChange={(e) => setNewStatus(e.target.value)} style={{ display: "block", margin: "10px auto", padding: "8px", width: "100%" }} />
+          <button onClick={handleUpdate} style={{ padding: "10px", margin: "5px", background: "white", color: "black" }}>Update Claim</button>
+          {/* <button onClick={handleDelete} style={{ padding: "10px", margin: "5px", background: "white", color: "black" }}>Delete Claim</button> */}
+        </div>
+      )}
+
       {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="number" name="claim_id" placeholder="Claim ID" onChange={handleChange} required />
-        <input type="text" name="policy_id" placeholder="Policy ID" onChange={handleChange} required />
-        <input type="number" name="amount" placeholder="Amount" onChange={handleChange} required />
-        <button type="submit">Submit</button>
-      </form>
     </div>
   );
 };

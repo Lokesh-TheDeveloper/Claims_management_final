@@ -229,7 +229,7 @@ def update_claim(claim_id):
         description: Claim not found
     """
     data = request.json
-    response = claims_manager.update_claim(claim_id, data["status"])
+    response = claims_manager.update_claim(str(claim_id), data["status"])
     return jsonify({"message": response})
 
 @app.route("/claim/<int:claim_id>", methods=["DELETE"])

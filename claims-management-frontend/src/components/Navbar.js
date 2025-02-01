@@ -9,7 +9,7 @@ const Navbar = () => {
           <Link to="/">Claim List</Link>
         </li>
         <li>
-          <Link to="/create">Create Claim</Link>
+          <Link to="/create">Create/Update Claim</Link>
         </li>
       </ul>
     </nav>
