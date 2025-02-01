@@ -14,6 +14,10 @@ const ClaimForm = () => {
       setMessage("Please fill all fields.");
       return;
     }
+    if (amount <= 0) {
+      alert("Amount must be a positive number.");
+      return;
+    }
     try {
       const response = await axios.post("http://localhost:5000/claim", {
         claim_id: claimId,
