@@ -5,8 +5,10 @@ const ClaimsList = () => {
   const [claims, setClaims] = useState([]);
   const [error, setError] = useState(null);
 
+  // Fetch claims from backend
   useEffect(() => {
-    axios.get("http://localhost:5000/claim-list")  // ✅ Check the correct backend URL
+    axios
+      .get("http://localhost:5000/claim-list")
       .then((response) => setClaims(response.data.claims))
       .catch((err) => {
         console.error("Error fetching claims:", err);
@@ -14,18 +16,50 @@ const ClaimsList = () => {
       });
   }, []);
 
+  const handleDelete = (claim_id) => {
+    axios
+      .delete(`http://localhost:5000/claim/${claim_id}`)
+      .then((response) => {
+        alert(response.data.message); // Optional: Display a success message
+        setClaims(claims.filter((claim) => claim.claim_id !== claim_id)); // Remove claim from the list
+      })
+      .catch((error) => {
+        console.error("Error deleting claim:", error);
+        alert("Failed to delete claim");
+      });
+  };
+
   return (
     <div>
       <h2>Claims List</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {claims.length > 0 ? (
-        <ul>
-          {claims.map((claim) => (
-            <li key={claim.claim_id}>
-              <strong>Claim ID:</strong> {claim.claim_id}, <strong>Status:</strong> {claim.status}
-            </li>
-          ))}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Claim ID</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {claims.map((claim) => (
+              <tr key={claim.claim_id}>
+                <td>{claim.claim_id}</td>
+                <td>{claim.status}</td>
+                <td>
+                  {/* Delete Button */}
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(claim.claim_id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <p>No claims found.</p>
       )}

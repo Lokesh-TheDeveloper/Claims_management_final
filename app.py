@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flasgger import Swagger    # flasgger is used for generating Swagger UI at default location /apidocs
 from pymongo import MongoClient
 from flask_cors import CORS
+from bson import ObjectId
 
 
 
@@ -233,29 +234,38 @@ def update_claim(claim_id):
 
 @app.route("/claim/<int:claim_id>", methods=["DELETE"])
 def delete_claim(claim_id):
-    """
-    Delete a claim
-    ---
-    parameters:
-      - name: claim_id
-        in: path
-        type: integer
-        required: true
-        description: The unique identifier for the claim
-    responses:
-      200:
-        description: Claim deleted successfully
-        schema:
-          type: object
-          properties:
-            message:
-              type: string
-              example: "Claim 101 deleted!"
-      404:
-        description: Claim not found
-    """
-    response = claims_manager.delete_claim(claim_id)
-    return jsonify({"message": response})
+    # """
+    # Delete a claim
+    # ---
+    # parameters:
+    #   - name: claim_id
+    #     in: path
+    #     type: integer
+    #     required: true
+    #     description: The unique identifier for the claim
+    # responses:
+    #   200:
+    #     description: Claim deleted successfully
+    #     schema:
+    #       type: object
+    #       properties:
+    #         message:
+    #           type: string
+    #           example: "Claim 101 deleted!"
+    #   404:
+    #     description: Claim not found
+    # """
+    print(f"Attempting to delete claim with ID: {claim_id}")  # Check claim_id
+    try:
+        result = claims_collection.delete_one({"claim_id": str(claim_id)})  # Assuming the claim ID is _id in MongoDB
+        if result.deleted_count > 0:
+            return jsonify({"message": "Claim deleted successfully."}), 200
+        else:
+            return jsonify({"error": "Claim not found."}), 404
+    except Exception as e:
+        print("Error during deletion:", e)
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)

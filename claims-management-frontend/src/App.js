@@ -5,7 +5,10 @@ import ClaimForm from "./components/ClaimForm";
 import ClaimList from "./components/ClaimList";
 import ClaimsList from "./components/ClaimsList";
 
+import ClaimUpdateDelete from "./components/ClaimUpdateDelete";
 
+
+// Create claim 
 function App() {
   return (
     <Router>
@@ -14,10 +17,15 @@ function App() {
         <Routes>
           <Route path="/" element={<ClaimList />} />
           <Route path="/create" element={<ClaimForm />} />
+          <Route path="/update-delete" element={<ClaimUpdateDelete />} />  {/* New route added */}
         </Routes>
       </div>
     </Router>
   );
 }
+
+
+
+
 
 export default App;
