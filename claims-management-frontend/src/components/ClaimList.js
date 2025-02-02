@@ -8,7 +8,7 @@ const ClaimsList = () => {
   // Fetch claims from backend
   useEffect(() => {
     axios
-      .get("http://localhost:5000/claim-list")
+      .get("https://claims-management-final-1.onrender.com/claim-list")
       .then((response) => setClaims(response.data.claims))
       .catch((err) => {
         console.error("Error fetching claims:", err);
@@ -18,7 +18,7 @@ const ClaimsList = () => {
 
   const handleDelete = (claim_id) => {
     axios
-      .delete(`http://localhost:5000/claim/${claim_id}`)
+      .delete(`https://claims-management-final-1.onrender.com/claim/${claim_id}`)
       .then((response) => {
         alert(response.data.message); // Optional: Display a success message
         setClaims(claims.filter((claim) => claim.claim_id !== claim_id)); // Remove claim from the list

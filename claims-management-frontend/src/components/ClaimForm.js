@@ -19,7 +19,7 @@ const ClaimForm = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/claim", {
+      const response = await axios.post("https://claims-management-final-1.onrender.com/claim", {
         claim_id: claimId,
         policy_id: policyId,
         amount: parseFloat(amount),
@@ -36,7 +36,7 @@ const ClaimForm = () => {
       return;
     }
     try {
-      const response = await axios.put(`http://localhost:5000/claim/${claimId}`, {
+      const response = await axios.put(`https://claims-management-final-1.onrender.com/claim/${claimId}`, {
         status: newStatus,
       });
       setMessage(response.data.message);
@@ -51,7 +51,7 @@ const ClaimForm = () => {
       return;
     }
     try {
-      const response = await axios.delete(`http://localhost:5000/claim/${claimId}`);
+      const response = await axios.delete(`https://claims-management-final-1.onrender.com/claim/${claimId}`);
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response?.data?.error || "Error deleting claim.");

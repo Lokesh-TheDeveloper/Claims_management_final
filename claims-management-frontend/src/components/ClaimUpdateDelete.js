@@ -12,7 +12,7 @@ const ClaimUpdateDelete = () => {
       return;
     }
     try {
-      const response = await axios.put(`http://localhost:5000/claim/${claimId}`, {
+      const response = await axios.put(`https://claims-management-final-1.onrender.com/claim/${claimId}`, {
         status: newStatus,
       });
       setMessage(response.data.message);
@@ -27,7 +27,7 @@ const ClaimUpdateDelete = () => {
       return;
     }
     try {
-      const response = await axios.delete(`http://localhost:5000/claim/${claimId}`);
+      const response = await axios.delete(`https://claims-management-final-1.onrender.com/claim/${claimId}`);
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response?.data?.error || "Error deleting claim.");

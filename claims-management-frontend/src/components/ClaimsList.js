@@ -5,7 +5,7 @@
 //   const [error, setError] = useState(null);
 
 //   useEffect(() => {
-//     fetch("http://localhost:5000/claim-list") // Make sure your backend has this endpoint
+//     fetch("https://claims-management-final-1.onrender.com/claim-list") // Make sure your backend has this endpoint
 //       .then((response) => response.json())
 //       .then((data) => setClaims(data.claims))
 //       .catch((err) => setError(err.message));

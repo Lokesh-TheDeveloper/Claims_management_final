@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/";
+const API_URL = "https://claims-management-final-1.onrender.com/";
 
 export const createClaim = (claimData) => {
   return axios.post(API_URL, claimData);
