@@ -182,7 +182,7 @@ def get_claim(claim_id):
       404:
         description: Claim not found
     """
-    claim = claims_manager.get_claim(claim_id)
+    claim = claims_manager.get_claim(str(claim_id))
     return jsonify({"claim": claim}) if claim != "Claim not found" else (jsonify({"error": "Claim not found"}), 404)
 
 
