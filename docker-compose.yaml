@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./  # Use the current directory for building the backend Docker image
+      dockerfile: Dockerfile  # Adjust if your Dockerfile is named differently
+    container_name: claims-management-backend
+    ports:
+      - "5000:5000"  # Expose backend port
+    volumes:
+      - ./:/app  # Mount the current folder to /app in the container
+    networks:
+      - claims-net
+
+  frontend:
+    build:
+      context: ./claims-management-frontend  # Path to the frontend directory
+      dockerfile: Dockerfile  # Adjust if your Dockerfile is named differently
+    container_name: claims-management-frontend
+    ports:
+      - "3000:3000"  # Expose frontend port
+    volumes:
+      - ./claims-management-frontend:/app  # Mount the frontend folder to /app
+    depends_on:
+      - backend  # Ensure backend is running before frontend starts
+    networks:
+      - claims-net
+
+networks:
+  claims-net:
+    driver: bridge
